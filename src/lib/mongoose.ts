@@ -25,9 +25,9 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      connectTimeoutMS: 20000,
-      serverSelectionTimeoutMS: 20000,
-      family: 4, // Force IPv4
+      connectTimeoutMS: 30000,
+      serverSelectionTimeoutMS: 30000,
+      // Removed family: 4 to allow DNS SRV resolution to work correctly in Cloud environments
     };
 
     cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
