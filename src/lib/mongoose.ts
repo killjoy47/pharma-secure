@@ -30,11 +30,18 @@ async function dbConnect() {
       // Removed family: 4 to allow DNS SRV resolution to work correctly in Cloud environments
     };
 
+    console.log('⏳ Attempting to connect to MongoDB...');
+    const redactedUri = MONGODB_URI.split('@')[1] || 'URL format error';
+    console.log(`🔗 Target Host: ${redactedUri.split('/')[0]}`);
+
     cached.promise = mongoose.connect(MONGODB_URI as string, opts).then((mongoose) => {
-      console.log('✅ Connected to MongoDB Atlas');
+      console.log('✅ Connected to MongoDB Atlas Cloud');
       return mongoose;
     }).catch((err) => {
-      console.error('❌ MongoDB connection error:', err.message);
+      console.error('❌ MongoDB Connection Error Details:');
+      console.error('   Code:', err.code);
+      console.error('   Name:', err.name);
+      console.error('   Message:', err.message);
       throw err;
     });
   }
